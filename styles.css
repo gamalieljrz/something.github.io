@@ -452,6 +452,12 @@ section {
     color: var(--accent-hover);
 }
 
+.project-link[href="#"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* Achievements Section */
 .achievements {
     background-color: var(--bg-secondary);

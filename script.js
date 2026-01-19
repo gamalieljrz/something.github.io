@@ -185,13 +185,8 @@ function simulateFormSubmission(data) {
 // Add hover effect to project cards
 const projectCards = document.querySelectorAll('.project-card');
 projectCards.forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-8px) scale(1.02)';
-    });
-    
-    card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1)';
-    });
+    // Remove JavaScript hover handlers since CSS handles this better
+    // The CSS .project-card:hover already provides the transform effect
 });
 
 // Skill tags animation on hover
@@ -232,7 +227,7 @@ const statObserver = new IntersectionObserver((entries) => {
         if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
             const numberElement = entry.target.querySelector('.stat-number');
             const originalText = numberElement.textContent;
-            const numericValue = parseInt(originalText.replace(/\D/g, ''));
+            const numericValue = parseInt(originalText.replace(/\D/g, ''), 10) || 0;
             
             entry.target.classList.add('animated');
             animateCounter(numberElement, numericValue);
@@ -301,13 +296,20 @@ function activateEasterEgg() {
     console.log('🎉 Easter egg activated!');
 }
 
-// Parallax effect for hero section
+// Parallax effect for hero section with throttling
+let ticking = false;
 window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero-content');
-    if (hero && scrolled < 600) {
-        hero.style.transform = `translateY(${scrolled * 0.3}px)`;
-        hero.style.opacity = 1 - scrolled / 600;
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-content');
+            if (hero && scrolled < 600) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                hero.style.opacity = 1 - scrolled / 600;
+            }
+            ticking = false;
+        });
+        ticking = true;
     }
 });
 
