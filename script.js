@@ -172,11 +172,12 @@ contactForm.addEventListener('submit', async (e) => {
 
 // Simulate form submission (replace with actual API endpoint)
 function simulateFormSubmission(data) {
+    const SUCCESS_RATE = 0.9; // 90% success rate for demo
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             console.log('Form data:', data);
             // Randomly succeed or fail for demo purposes
-            Math.random() > 0.1 ? resolve() : reject();
+            Math.random() > (1 - SUCCESS_RATE) ? resolve() : reject();
         }, 1500);
     });
 }
@@ -268,10 +269,10 @@ function typeWriter(element, text, speed = 100) {
 
 // Easter egg: Konami code
 let konamiCode = [];
-const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
 
 document.addEventListener('keydown', (e) => {
-    konamiCode.push(e.key);
+    konamiCode.push(e.code || e.key);
     konamiCode = konamiCode.slice(-10);
     
     if (konamiCode.join('') === konamiSequence.join('')) {
@@ -360,3 +361,11 @@ document.head.appendChild(slideStyle);
 // Initialize
 console.log('🚀 Portfolio loaded successfully!');
 console.log('💡 Try the Konami code for a surprise!');
+
+// Set current year in footer
+document.addEventListener('DOMContentLoaded', () => {
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+});
